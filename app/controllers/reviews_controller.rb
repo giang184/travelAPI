@@ -11,19 +11,29 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    @review = Review.create(review_params)
-    json_response(@review)
+    @review = Review.create!(review_params)
+    json_response(@review, :created)
   end
 
   def update
     @review = Review.find(params[:id])
-    @review.update(review_params)
+    if @review.update!(review_params)
+      render status: 200, json: {
+        message: "This review has been updated successfully."
+      }
+    end
   end
 
   def destroy
     @review = Review.find(params[:id])
-    @review.destroy
+    if @review.destroy!
+      render status: 200, json: {
+        message: "This review has been deleted successfully."
+      }
+    end
   end
+
+
 
   private
 

@@ -42,4 +42,19 @@ class Review < ApplicationRecord
     }
     average_hash.max_by{|k,v| v}[0]
   end
+
+  def self.random_country
+    reviews = Review.all
+    country_hash = {}
+    reviews.each { |review|
+      country = review.country.downcase
+      if(!country_hash.keys.include?(country)) 
+        country_hash[country]=1
+      else
+        country_hash[country] += 1
+      end
+    }
+    number = rand(0..country_hash.keys.length-1)
+    Review.search(country_hash.keys[number])
+  end
 end

@@ -20,8 +20,26 @@ class Review < ApplicationRecord
     }
     country_hash.max_by{|k,v| v}[0]
   end
-end
 
-# new route?  localhost:3000/reviews/top_rated
-# lebanon has 5 review and an average of 3
-# need to the above for every country and then put out the top rated
+  def self.average_rating
+    reviews = Review.all
+    country_hash = {}
+    ratings_hash = {}
+    average_hash = {}
+    reviews.each { |review|
+      country = review.country.downcase
+      rating = review.rating
+      if(!country_hash.keys.include?(country)) 
+        country_hash[country]=1
+        ratings_hash[country] = rating
+      else
+        country_hash[country] += 1
+        ratings_hash[country] += rating
+      end
+    }
+    country_hash.each { |element|
+      average_hash[element[0]] = ratings_hash[element[0]] / country_hash[element[0]] 
+    }
+    average_hash.max_by{|k,v| v}[0]
+  end
+end

@@ -14,7 +14,7 @@ class Seed
   end
 
   def generate_reviews
-    20.times do |i| 
+    10000.times do |i| 
       review = Review.create!(
         author: Faker::Book.author,
         content_body: Faker::Movie.quote,

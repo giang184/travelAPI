@@ -7,6 +7,13 @@ class TopRatedController < ApplicationController
 
   def review_number
     @country = Review.number_of_reviews
-    json_response(@country)
+    @search = Review.search(@country)
+    json_response(@search)
+  end
+
+  def average_review
+    @country = Review.average_rating
+    @search = Review.search(@country)
+    json_response(@search)
   end
 end

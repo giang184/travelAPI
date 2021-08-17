@@ -29,18 +29,30 @@ class ReviewsController < ApplicationController
 
   def update
     @review = Review.find(params[:id])
-    if @review.update!(review_params)
-      render status: 200, json: {
-        message: "This review has been updated successfully."
+    if @review.author == params[:user_name]
+      if @review.update!(review_params)
+        render status: 200, json: {
+          message: "This review has been updated successfully."
+        }
+      end
+    else
+      render status: 401, json: {
+        message: "This review hasn't been updated because you are not the author"
       }
     end
   end
 
   def destroy
     @review = Review.find(params[:id])
-    if @review.destroy!
-      render status: 200, json: {
-        message: "This review has been deleted successfully."
+    if @review.author == params[:user_name]
+      if @review.destroy!
+        render status: 200, json: {
+          message: "This review has been deleted successfully."
+        }
+      end
+    else
+      render status: 401, json: {
+        message: "This review hasn't been deleted because you are not the author"
       }
     end
   end

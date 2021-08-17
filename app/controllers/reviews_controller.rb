@@ -1,8 +1,20 @@
+require 'pry'
 class ReviewsController < ApplicationController
 
   def index
     @reviews = Review.all
-    json_response(@reviews)
+    if params[:country] && params[:city]
+      @search_reviews = Review.new_search2(params[:country], params[:city])
+      return json_response(@search_reviews)
+    elsif params[:city]
+      @search_reviews = Review.city_search(params[:city])
+      return json_response(@search_reviews)
+    elsif params[:country]
+      @search_reviews = Review.search(params[:country])
+      return json_response(@search_reviews)
+    else
+      json_response(@reviews)
+    end
   end
 
   def show
@@ -33,10 +45,7 @@ class ReviewsController < ApplicationController
     end
   end
 
-
-
   private
-
   def review_params
     params.permit(:author, :content_body, :country, :city, :rating)
   end

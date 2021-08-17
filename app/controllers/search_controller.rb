@@ -6,3 +6,6 @@ class SearchController < ApplicationController
     json_response(@reviews)
   end
 end
+
+
+# localhost:3000/reviews?city=anaheim

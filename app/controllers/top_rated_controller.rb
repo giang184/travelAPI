@@ -16,7 +16,7 @@ class TopRatedController < ApplicationController
     @search = Review.search(@country)
     json_response(@search)
   end
-  
+
   def random
     @country = Review.random_country
     # @search = Review.search(@country)
